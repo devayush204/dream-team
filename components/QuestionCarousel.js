@@ -3,13 +3,25 @@ import { QuestionData } from '@/data/Questions';
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import TextCard from './TextCard';
+import WinnerModal from './WinnerModal';
 
 const QuestionCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [revealedOptions, setRevealedOptions] = useState(Array(8).fill(false));
-  const [team1Result, setTeam1Result] = useState(0);
-  const [team2Result, setTeam2Result] = useState(0);
+  const [teams, setTeams] = useState([
+    { id: 1, name: 'Team 1', score: 0 },
+    { id: 2, name: 'Team 2', score: 0 },
+    { id: 3, name: 'Team 3', score: 0 },
+    { id: 4, name: 'Team 4', score: 0 },
+    { id: 5, name: 'Team 5', score: 0 },
+    { id: 6, name: 'Team 6', score: 0 },
+    { id: 7, name: 'Team 7', score: 0 },
+    { id: 8, name: 'Team 8', score: 0 },
+  ]);
   const [draggedCard, setDraggedCard] = useState(null);
+  const [currentRound, setCurrentRound] = useState(1);
+  const [showModal, setShowModal] = useState(false);
+  const [winnerTeam, setWinnerTeam] = useState(null);
 
   const handlePrevious = () => {
     setCurrentIndex((prevIndex) => (prevIndex === 0 ? QuestionData.length - 1 : prevIndex - 1));
@@ -21,6 +33,17 @@ const QuestionCarousel = () => {
     setCurrentIndex((prevIndex) => (prevIndex === QuestionData.length - 1 ? 0 : prevIndex + 1));
     setRevealedOptions(Array(8).fill(false));
     setDraggedCard(null);
+
+    if ((currentIndex + 1) % 4 === 0) {
+      eliminateTeams();
+      setCurrentRound((prevRound) => prevRound + 1);
+    }
+
+    if (currentIndex === QuestionData.length - 1 && currentRound === 4) {
+      const sortedTeams = [...teams].sort((a, b) => b.score - a.score);
+      setWinnerTeam(sortedTeams[0]);
+      setShowModal(true);
+    }
   };
 
   const handleOptionReveal = (index) => {
@@ -35,28 +58,32 @@ const QuestionCarousel = () => {
     setDraggedCard({ index, result });
   };
 
-  const handleCardDrop = (team) => {
+  const handleCardDrop = (teamId) => {
     if (draggedCard) {
-      if (team === 'team1') {
-        setTeam1Result((prevResult) => prevResult + draggedCard.result);
-      } else {
-        setTeam2Result((prevResult) => prevResult + draggedCard.result);
-      }
+      setTeams((prevTeams) =>
+        prevTeams.map((team) =>
+          team.id === teamId ? { ...team, score: team.score + draggedCard.result } : team
+        )
+      );
       setDraggedCard(null);
     }
+  };
+
+  const eliminateTeams = () => {
+    const sortedTeams = [...teams].sort((a, b) => a.score - b.score);
+    const teamsToEliminate = sortedTeams.slice(0, 2);
+    setTeams((prevTeams) => prevTeams.filter((team) => !teamsToEliminate.includes(team)));
   };
 
   const currentQuestion = QuestionData[currentIndex];
 
   return (
     <div className="flex">
-        <Sidebar
-        team1Result={team1Result}
-        team2Result={team2Result}
-        onDrop={handleCardDrop}
-      />
-      <div className="container mx-auto py-8 px-20">
-        <h1 className="text-3xl font-bold mb-6">{currentQuestion.question}</h1>
+      <Sidebar teams={teams} onDrop={handleCardDrop} />
+      <div className="w-[70vw] py-8 px-20">
+        <h1 className="text-3xl font-bold mb-6">
+          {currentQuestion.question} (Round {currentRound})
+        </h1>
         <div className="grid grid-cols-2 gap-4 mb-6 w-full">
           {['option1', 'option2', 'option3', 'option4', 'option5', 'option6', 'option7', 'option8'].map((option, index) => (
             <TextCard
@@ -85,7 +112,7 @@ const QuestionCarousel = () => {
           </button>
         </div>
       </div>
-      
+      {showModal && <WinnerModal winnerTeam={winnerTeam} onClose={() => setShowModal(false)} />}
     </div>
   );
 };
