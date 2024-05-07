@@ -1,7 +1,8 @@
-export const QuestionData =[
+export const QuestionData = [
     {
         "id": 1,
         "question": "what is the cajhs adsajdsajd sads",
+        result: [10, 5, 7, 3, 6, 2, 4, 8],
         "option1": "ayush",
         "option2": "ayush",
         "option3": "ayush",
@@ -14,6 +15,7 @@ export const QuestionData =[
     {
         "id": 2,
         "question": "jasbdasd asdhasdas dsadhasd sadhasdas dsa",
+        result: [10, 52, 7, 30, 6, 23, 4, 8],
         "option1": "11111",
         "option2": "22222",
         "option3": "33333",
@@ -26,6 +28,7 @@ export const QuestionData =[
     {
         "id": 3,
         "question": "how are you",
+        result: [10, 52, 7, 3, 6, 22, 4, 8],
         "option1": "ayush1",
         "option2": "ayush2",
         "option3": "ayush3",
@@ -38,6 +41,7 @@ export const QuestionData =[
     {
         "id": 4,
         "question": "aahhh ahhashdsaidad sadasjdasdas",
+        result: [10, 5, 71, 3, 60, 2, 4, 8],
         "option1": "hello1",
         "option2": "hiii2",
         "option3": "hii3",
