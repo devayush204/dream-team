@@ -215,3 +215,5 @@ export const QuestionData = [
         option8: "Marie Curie",
     },
 ]
+
+export default QuestionData;

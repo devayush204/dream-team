@@ -1,5 +1,5 @@
 "use client"
-import { QuestionData } from '@/data/Questions';
+import  QuestionData  from '@/data/Questions';
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import TextCard from './TextCard';
@@ -11,12 +11,6 @@ const QuestionCarousel = () => {
   const [teams, setTeams] = useState([
     { id: 1, name: 'Team 1', score: 0 },
     { id: 2, name: 'Team 2', score: 0 },
-    { id: 3, name: 'Team 3', score: 0 },
-    { id: 4, name: 'Team 4', score: 0 },
-    { id: 5, name: 'Team 5', score: 0 },
-    { id: 6, name: 'Team 6', score: 0 },
-    { id: 7, name: 'Team 7', score: 0 },
-    { id: 8, name: 'Team 8', score: 0 },
   ]);
   const [draggedCard, setDraggedCard] = useState(null);
   const [currentRound, setCurrentRound] = useState(1);
@@ -70,16 +64,17 @@ const QuestionCarousel = () => {
   };
 
   const eliminateTeams = () => {
-    const sortedTeams = [...teams].sort((a, b) => a.score - b.score);
-    const teamsToEliminate = sortedTeams.slice(0, 2);
-    setTeams((prevTeams) => prevTeams.filter((team) => !teamsToEliminate.includes(team)));
+    setTeams((prevTeams) => [
+      { ...prevTeams[0], name: `Team 1 (Round ${currentRound})`, score: 0 },
+      { ...prevTeams[1], name: `Team 2 (Round ${currentRound})`, score: 0 },
+    ]);
   };
 
   const currentQuestion = QuestionData[currentIndex];
 
   return (
     <div className="flex">
-      <Sidebar teams={teams} onDrop={handleCardDrop} />
+      <Sidebar teams={teams} onDrop={handleCardDrop} setTeams={setTeams} />
       <div className="w-[70vw] py-8 px-20">
         <h1 className="text-3xl font-bold mb-6">
           {currentQuestion.question} (Round {currentRound})
