@@ -47,7 +47,7 @@ const Sidebar = ({ teams, onDrop, setTeams }) => {
             <p>Total Score: {team.score}</p>
             {editingTeamId !== team.id && (
               <button
-                className="absolute bottom-2 right-2 bg-blue-500 text-white px-2 py-1 rounded"
+                className="absolute bottom-2 right-2 bg-blue-500 text-sm text-white px-2 py-1 rounded"
                 onClick={() => handleEditClick(team.id, team.name)}
               >
                 Edit
@@ -55,7 +55,7 @@ const Sidebar = ({ teams, onDrop, setTeams }) => {
             )}
             {editingTeamId === team.id && (
               <button
-                className="absolute bottom-2 right-2 bg-green-500 text-white px-2 py-1 rounded"
+                className="absolute bottom-2 right-2 bg-green-500 text-sm text-white px-2 py-1 rounded"
                 onClick={() => handleSaveTeamName(team.id)}
               >
                 Save
