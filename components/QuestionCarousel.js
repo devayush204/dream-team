@@ -1,9 +1,10 @@
 "use client"
-import  QuestionData  from '@/data/Questions';
+import QuestionData from '@/data/Questions';
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import TextCard from './TextCard';
 import WinnerModal from './WinnerModal';
+import Navbar from './Navbar';
 
 const QuestionCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -73,38 +74,42 @@ const QuestionCarousel = () => {
   const currentQuestion = QuestionData[currentIndex];
 
   return (
-    <div className="flex">
+    <div className="flex ">
       <Sidebar teams={teams} onDrop={handleCardDrop} setTeams={setTeams} />
-      <div className="w-[70vw] py-8 px-20">
-        <h1 className="text-3xl font-bold mb-6">
-          {currentQuestion.question} (Round {currentRound})
-        </h1>
-        <div className="grid grid-cols-2 gap-4 mb-6 w-full">
-          {['option1', 'option2', 'option3', 'option4', 'option5', 'option6', 'option7', 'option8'].map((option, index) => (
-            <TextCard
-              key={index}
-              label={option}
-              text={currentQuestion[option]}
-              result={currentQuestion.result[index]}
-              isOpen={revealedOptions[index]}
-              onReveal={() => handleOptionReveal(index)}
-              onDragStart={() => handleCardDragStart(index, currentQuestion.result[index])}
-            />
-          ))}
-        </div>
-        <div className="flex justify-between mb-6">
-          <button
-            className="px-4 py-2 bg-blue-500 text-white rounded"
-            onClick={handlePrevious}
-          >
-            Previous
-          </button>
-          <button
-            className="px-4 py-2 bg-blue-500 text-white rounded"
-            onClick={handleNext}
-          >
-            Next
-          </button>
+      <div className='relative'>
+        <Navbar
+          currentRound={currentRound}
+          setCurrentRound={setCurrentRound}
+          setCurrentIndex={setCurrentIndex}
+        />
+        <div className="w-[70vw] ml-24 py-8 px-20 mt-16 flex flex-col ">
+          <h1 className="text-3xl font-bold mb-6 ">
+            {currentQuestion.question}  (Round {currentRound})
+          </h1>
+          <div className="grid grid-cols-2 gap-4 mb-6 w-full">
+            {['option1', 'option2', 'option3', 'option4', 'option5', 'option6', 'option7', 'option8'].map((option, index) => (
+              <div>
+
+                <TextCard
+                  key={index}
+                  label={option}
+                  text={currentQuestion[option]}
+                  result={currentQuestion.result[index]}
+                  isOpen={revealedOptions[index]}
+                  onReveal={() => handleOptionReveal(index)}
+                  onDragStart={() => handleCardDragStart(index, currentQuestion.result[index])}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-end mb-6">
+            <button
+              className="px-4 py-2 bg-blue-500 text-white rounded"
+              onClick={handleNext}
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
       {showModal && <WinnerModal winnerTeam={winnerTeam} onClose={() => setShowModal(false)} />}

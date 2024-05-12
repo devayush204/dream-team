@@ -1,0 +1,32 @@
+.text-card {
+  width: 100%;
+  height: 100px;
+  perspective: 1000px; /* Define the perspective for 3D effect */
+}
+
+.text-card div {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden; /* Hide the back face */
+  transition: transform 2s;
+}
+
+.front {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotateY(0deg);
+}
+
+.back {
+  transform: rotateY(180deg); /* Initially hidden by rotating 180 degrees */
+}
+
+.text-card.is-flipped .front {
+  transform: rotateY(-180deg); /* Rotate the front face when flipped */
+}
+
+.text-card.is-flipped .back {
+  transform: rotateY(0deg); /* Rotate the back face when flipped */
+}

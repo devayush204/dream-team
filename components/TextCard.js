@@ -1,7 +1,14 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
+import './TextCard.css'; // Import CSS file for styling
 
-const TextCard = ({ label, text, result, isOpen, onReveal, onDragStart }) => {
+const TextCard = ({ label, text, result, onDragStart }) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const handleFlip = () => {
+    setIsFlipped(!isFlipped);
+  };
+
   const handleDragStart = (e) => {
     onDragStart();
     e.dataTransfer.effectAllowed = 'move';
@@ -9,19 +16,18 @@ const TextCard = ({ label, text, result, isOpen, onReveal, onDragStart }) => {
 
   return (
     <div
-      className="p-4 border border-gray-300 rounded-md cursor-pointer"
-      onClick={onReveal}
+      className={`text-card ${isFlipped ? 'is-flipped' : ''}`}
+      onClick={handleFlip}
       draggable
       onDragStart={handleDragStart}
     >
-      {!isOpen && <h3 className="text-lg text-gray-400 font-bold mb-2">{label}</h3>}
-      <div
-        className={`overflow-hidden transition-all duration-500 ${
-          isOpen ? 'max-h-96' : 'max-h-0'
-        }`}
-      >
-        <p className="text-black text-2xl font-semibold capitalize mb-2">{text}</p>
-        {isOpen && <p className="text-gray-600">Result: {result}</p>}
+      <div className="front  bg-zinc-500">
+        <h3 className="text-2xl text-black/80 capitalize font-bold">{label}</h3>
+      </div>
+      <div className="back bg-black/30 flex font-bold text-3xl items-center justify-center  ">
+        <p className="text-black  capitalize  ">{text}</p>
+          <span className='py-8 rounded-full px-[2px]  bg-black' />
+          <p className="text-black">{result}</p>
       </div>
     </div>
   );

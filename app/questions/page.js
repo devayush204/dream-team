@@ -19,11 +19,9 @@ const page = () => {
   };
   return (
     <section className='flex'>
-
-      {/* <Sidebar /> */}
-      <QuestionCarousel />
-      <div className='absolute right-0 bottom-0'>
-        {/* <div className='p-5'> */}
+      <div className=''>
+        <QuestionCarousel />
+        <div className='absolute right-0 bottom-0'>
           <button
             className="p-3 mb-5  bg-green-500 text-white rounded mr-5"
             onClick={handleCorrectGuess}
@@ -50,7 +48,7 @@ const page = () => {
             </div>
           )}
         </div>
-      {/* </div> */}
+      </div>
     </section>
   )
 }
