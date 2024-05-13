@@ -102,12 +102,12 @@ const Sidebar = ({ teams, onDrop, setTeams, onRemove, scores }) => {
         ))}
       </div>
       <div
-        className="h-full bg-gray-200 border  border-gray-400  w-[40%]"
+        className="h-full bg-gray-200 border flex flex-col border-gray-400 gap-1 p-2   w-[40%]"
         onDragOver={(e) => e.preventDefault()}
         onDrop={handleDrop}
       >
         {droppedTeams.map((team) => (
-          <div key={team.id} className="relative  flex justify-between items-center p-3 bg-blue-300">
+          <div key={team.id} className="relative  flex justify-between items-center p-3 bg-blue-300 rounded-xl">
             <div className='flex flex-col items-center justify-center w-full' >
               <p className='py-4 px-6 text-center rounded-full text-4xl text-black bg-green-200 font-bold'>{team.score}</p>
               <p>{team.name.replace(new RegExp(wordsToRemove.join('|'), 'gi'), '')}</p>
