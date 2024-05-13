@@ -7,6 +7,8 @@ import WinnerModal from './WinnerModal';
 import Navbar from './Navbar';
 
 const QuestionCarousel = () => {
+  const congratsAudio = "/congratulations.mp3"
+  const congratsSound = new Audio(congratsAudio);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [revealedAnswers, setRevealedAnswers] = useState(Array(8).fill(false));
   const [teams, setTeams] = useState([
@@ -58,6 +60,7 @@ const QuestionCarousel = () => {
       const sortedTeams = [...teams].sort((a, b) => b.score - a.score);
       setWinnerTeam(sortedTeams[0]);
       setShowModal(true);
+      congratsSound.play()
     }
 
     // Set resetCard to true to reset the card to front face
@@ -100,7 +103,7 @@ const QuestionCarousel = () => {
   const currentQuestion = QuestionData[currentIndex];
 
   return (
-    <div className="flex ">
+    <div className="flex">
       <Sidebar
         teams={teams}
         droppedTeams={droppedTeams}
@@ -110,7 +113,7 @@ const QuestionCarousel = () => {
         scores={teams} // Pass teams as scores to dynamically fetch scores in Sidebar
       />
       {!gameStarted && ( // Render instructions and start button if the game hasn't started
-        <div className="w-full flex flex-col text-center mt-10">
+        <div className="w-full mt-20 flex flex-col text-center ml-20 ">
           <h2 className="text-2xl font-bold mb-4">Instructions:</h2>
           <p className="mb-4">Follow the instructions and answer the questions correctly to earn points.</p>
           <button

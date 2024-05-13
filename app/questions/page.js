@@ -21,13 +21,13 @@ const wrongSound = "/wrong.mp3";
   const handleCorrectGuess = () => {
     setShowCorrectModal(true);
     correctAudio.play();
-    setTimeout(() => setShowCorrectModal(false), 2000);
+    setTimeout(() => setShowCorrectModal(false), 1000);
   };
 
   const handleIncorrectGuess = () => {
     setShowIncorrectModal(true);
     incorrectAudio.play();
-    setTimeout(() => setShowIncorrectModal(false), 2000);
+    setTimeout(() => setShowIncorrectModal(false), 1000);
   };
 
 
