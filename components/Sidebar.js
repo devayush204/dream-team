@@ -102,7 +102,7 @@ const Sidebar = ({ teams, onDrop, setTeams, onRemove, scores }) => {
         ))}
       </div>
       <div
-        className="h-full bg-gray-200 border flex flex-col border-gray-400 gap-1 p-2   w-[40%]"
+        className="h-full bg-zinc-300 border flex flex-col border-gray-400 gap-1 p-2   w-[40%]"
         onDragOver={(e) => e.preventDefault()}
         onDrop={handleDrop}
       >
