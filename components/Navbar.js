@@ -1,20 +1,38 @@
+"use client"
 import React from 'react';
 
-const Navbar = ({ currentRound, setCurrentRound, setCurrentIndex }) => {
+const Navbar = ({ currentRound, setCurrentRound, setCurrentIndex, setResetCard }) => {
   const handleRoundChange = (round) => {
     setCurrentRound(round);
-    setCurrentIndex((round - 1) * 4); // Assuming each round has 4 questions
+
+    switch (round) {
+      case 1:
+        setCurrentIndex(0); // Start from the first question in round 1
+        break;
+      case 2:
+        setCurrentIndex(10); // Start from the 11th question in round 2
+        break;
+      case 3:
+        setCurrentIndex(14); // Start from the 15th question in round 3
+        break;
+      default:
+        break;
+    }
+
+    setResetCard(true); // Set resetCard to true to reset flipped cards to front face
   };
 
   return (
-    <nav className="flex justify-center items-center bg-gray-800 text-white p-4 w-[80vw] fixed">
+    <nav className="flex justify-center items-center bg-gray-800 text-white p-4 w-[70vw] fixed z-50">
       <div>
-        <ul className="flex gap-5  ">
-          {[1, 2, 3, 4].map((round) => (
+        <ul className="flex gap-5">
+          {[1, 2, 3].map((round) => (
             <li
               key={round}
-              className={`cursor-pointer px-14 py-2  ${
-                currentRound === round ? 'text-black font-bold bg-purple-400 rounded-lg' : 'text-gray-300'
+              className={`cursor-pointer px-14 py-2 ${
+                currentRound === round
+                  ? 'text-black font-bold bg-purple-400 rounded-lg'
+                  : 'text-gray-300'
               }`}
               onClick={() => handleRoundChange(round)}
             >
