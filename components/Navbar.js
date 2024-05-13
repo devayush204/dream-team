@@ -1,4 +1,3 @@
-"use client"
 import React from 'react';
 
 const Navbar = ({ currentRound, setCurrentRound, setCurrentIndex, setResetCard }) => {
@@ -10,10 +9,10 @@ const Navbar = ({ currentRound, setCurrentRound, setCurrentIndex, setResetCard }
         setCurrentIndex(0); // Start from the first question in round 1
         break;
       case 2:
-        setCurrentIndex(10); // Start from the 11th question in round 2
+        setCurrentIndex(5); // Start from the 6th question in round 2
         break;
       case 3:
-        setCurrentIndex(14); // Start from the 15th question in round 3
+        setCurrentIndex(9); // Start from the 10th question in round 3
         break;
       default:
         break;
