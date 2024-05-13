@@ -7,6 +7,7 @@ const page = () => {
   const [questionsdata, setQuestionsdata] = useState(questionsData)
   const [showCorrectModal, setShowCorrectModal] = useState(false);
   const [showIncorrectModal, setShowIncorrectModal] = useState(false);
+  const [droppedTeams, setDroppedTeams] = useState([]);
 
   const handleCorrectGuess = () => {
     setShowCorrectModal(true);
@@ -16,6 +17,14 @@ const page = () => {
   const handleIncorrectGuess = () => {
     setShowIncorrectModal(true);
     setTimeout(() => setShowIncorrectModal(false), 2000);
+  };
+
+  
+
+  const handleRemoveDroppedTeam = (teamId) => {
+    setDroppedTeams((prevDroppedTeams) =>
+      prevDroppedTeams.filter((team) => team.id !== teamId)
+    );
   };
   return (
     <section className='flex'>
@@ -48,7 +57,8 @@ const page = () => {
             </div>
           )}
         </div>
-      </div>
+           
+        </div>
     </section>
   )
 }

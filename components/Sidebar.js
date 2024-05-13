@@ -1,9 +1,15 @@
 "use client"
 import React, { useState } from 'react';
 
-const Sidebar = ({ teams, onDrop, setTeams }) => {
+const Sidebar = ({ teams, onDrop, setTeams, onRemove, scores }) => {
   const [editingTeamId, setEditingTeamId] = useState(null);
   const [newTeamName, setNewTeamName] = useState('');
+  const [droppedTeams, setDroppedTeams] = useState([]);
+
+  const generateUniqueId = () => {
+    return Math.random().toString(36).substr(2, 9);
+  };
+
 
   const handleEditClick = (teamId, teamName) => {
     setEditingTeamId(teamId);
@@ -13,7 +19,6 @@ const Sidebar = ({ teams, onDrop, setTeams }) => {
   const handleTeamNameChange = (event) => {
     setNewTeamName(event.target.value);
   };
-
   const handleSaveTeamName = (teamId) => {
     setTeams((prevTeams) =>
       prevTeams.map((team) => {
@@ -32,12 +37,35 @@ const Sidebar = ({ teams, onDrop, setTeams }) => {
     setNewTeamName('');
   };
 
+  const handleRemoveTeam = (teamId) => {
+    setDroppedTeams((prevTeams) => prevTeams.filter((team) => team.id !== teamId));
+    onRemove(teamId); // Notify parent component about the removed team
+  };
+
+  const handleDragStart = (teamId, teamName, event) => {
+    event.dataTransfer.setData('teamId', teamId);
+    event.dataTransfer.setData('teamName', teamName);
+  };
+  const handleDrop = (event) => {
+    const teamId = generateUniqueId(); // Generate unique ID for dropped team
+    const teamName = event.dataTransfer.getData('teamName');
+    if (teamName) {
+      const score = scores.find((team) => team.name === teamName)?.score || 0; // Fetch score dynamically
+      setDroppedTeams((prevTeams) => [...prevTeams, { id: teamId, name: teamName, score }]);
+      onDrop(teamId); // Notify parent component about the dropped team
+    }
+  };
+
+  const wordsToRemove = ['Round 1', 'Round 2', 'Round 3'];
+
   return (
-    <div className="w-[20vw]">
-      <div className="flex flex-col justify-center h-[100vh]">
+    <div className="w-[30vw] flex flex-row">
+      <div className="flex flex-col justify-center h-[100vh] w-[60%]">
         {teams.map((team, index) => (
           <div
             key={team.id}
+            draggable
+            onDragStart={(e) => handleDragStart(team.id, team.name, e)}
             className={`flex-1 p-5 relative ${index % 2 === 0 ? 'bg-gradient-to-r from-pink-500 to-yellow-500' : 'bg-gradient-to-r from-green-500 to-blue-500'}`}
             onDragOver={(e) => e.preventDefault()}
             onDrop={() => onDrop(team.id)}
@@ -73,7 +101,23 @@ const Sidebar = ({ teams, onDrop, setTeams }) => {
           </div>
         ))}
       </div>
+      <div
+        className="h-full bg-gray-200 border  border-gray-400  w-[40%]"
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={handleDrop}
+      >
+        {droppedTeams.map((team) => (
+          <div key={team.id} className="relative  flex justify-between items-center p-3 bg-blue-300">
+            <div className='flex flex-col items-center justify-center w-full' >
+              <p className='py-4 px-6 text-center rounded-full text-4xl text-black bg-green-200 font-bold'>{team.score}</p>
+              <p>{team.name.replace(new RegExp(wordsToRemove.join('|'), 'gi'), '')}</p>
+              <button className='absolute right-5 top-2' onClick={() => handleRemoveTeam(team.id)}>X</button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
+
   );
 };
 
